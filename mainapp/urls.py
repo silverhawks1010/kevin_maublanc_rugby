@@ -2,7 +2,7 @@ from django.urls import path
 # Import des URLs de l'interface d'administration
 from django.contrib import admin
 # Import des vues qui sont déclarées dans leur propre module (dossier)
-from .views import HomeView, StadiumsView, TeamsView, NewsletterView, UpdateView, AboutView, MobileView
+from .views import HomeView, StadiumsView, TeamsView, NewsletterView, UpdateView, AboutView, MobileView, QrCode
 from .api import api, api_get, api_ticket
 
 urlpatterns = (
@@ -13,6 +13,7 @@ urlpatterns = (
     path("update", UpdateView.as_view(), name="update"),
     path("about", AboutView.as_view(), name="about"),
     path("mobile", MobileView.as_view(), name="mobile"),
+    path("qrcode", QrCode.as_view(), name="qrcode"),
 
 
     path("api/", api, name="api"),

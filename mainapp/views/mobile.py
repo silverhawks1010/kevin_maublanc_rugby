@@ -3,7 +3,10 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.db.utils import IntegrityError
 
-from mainapp.models import Event, Stadium, Team, Newsletter
+from mainapp.models import Newsletter
+
+import requests
+import json
 
 class ContactForm(forms.Form):
     name = forms.CharField(label="Nom")
@@ -18,9 +21,7 @@ class MobileView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["organisateur"] = "RTC Comitee"
-        context["event"] = self.read_event()
-        context["stadiums"] = self.read_stadiums()
-        context["teams"] = self.read_teams()
+
         context["count"] = self.db_count_subscribers()
 
         if "homemessage" in self.request.session:
@@ -28,17 +29,8 @@ class MobileView(FormView):
             del self.request.session["homemessage"]
 
         return context
-
-    def read_event(self):
-        return Event.objects.all()[0]
     
-    def read_stadiums(self):
-        return Stadium.objects.all()
-
-    def read_teams(self):
-        return Team.objects.all()
-    
-    # Cette fonction est appelée lorsque le formulaire est invalide
+    # Cette fonction e        print(api_response)st appelée lorsque le formulaire est invalide
     def form_invalid(self, form, **kwargs):
         context = self.get_context_data(**kwargs)
         # On se sert du contexte pour faire passer un message d'erreur
