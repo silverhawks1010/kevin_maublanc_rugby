@@ -9,9 +9,10 @@
         <link rel="stylesheet" href="{% static 'fonts.css' %}">
         <link rel="stylesheet" href="{% static 'main.css' %}">
 
+        <script src="{% static 'desktop.js' %}"></script>
         <title>{% block title %}Page sans titre{% endblock %} - Rugby Tropical Cup 2023</title>
     </head>
-    <body onload="initialLoad()">
+    <body>
         <header>
             <nav class="container">
                 <img id="logo" src="{% static "logo.svg" %}" alt="Rugby Tropical Cup 2023">
@@ -65,6 +66,5 @@
                 <img src="{% static "partner_hydrobility.svg" %}">
             </div>
         </footer>
-        <script src="{% static 'desktop.js' %}"></script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-function initialLoad() {
+window.onload = function () {
     // redirect if width < 768px
     if (window.innerWidth < 1000) {
         // redirect url
