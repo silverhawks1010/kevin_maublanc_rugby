@@ -6,7 +6,7 @@ function switchToId(id) {
     actualId.style.display = 'block';
 }
 
-window.onload = function () {
+function initialLoad() {
     loadStadiums();
     document.querySelector('#stades').style = 'opacity: 255;';
     document.querySelector('#stades').style.display = 'none';
