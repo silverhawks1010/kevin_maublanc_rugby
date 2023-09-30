@@ -1,63 +1,62 @@
-let qrCode = window.qrcode;
-let scanIcon = document.querySelector("#scan");
+const startScanner = () => {
+    const videoElem = document.querySelector("#scanner video");
+    
+    const startElem = document.querySelector("#start");
+    startElem.style.display = 'none';
 
-const video = document.createElement("video");
-const canvasElement = document.getElementById("canvas");
-const canvas = canvasElement.getContext("2d");
+    const qrScanner = new QrScanner(videoElem, (result) => {
+        qrScanner.stop();
+        console.log('Contenu du QR Code :', result);
+        document.querySelector("#scanner").style.display = 'none';
 
-const qrResult = document.getElementById("result");
-const outputData = document.getElementById("output");
+        document.querySelector("#results").innerHTML = ' <h3>Informations sur le ticket</h3> </h3> <h4> Le ticket est invalide ! </h4> <p> Veuillez scanner un ticket valide. </p>'
 
-let scanning = false;
+        ticketinfo = getApi('ticket/' + result)[0]["fields"];
 
-qrcodeii.callback = (res) => {
-  if (res) {
-    //in here you can pass your data  "res" to an endpoint or something
-    outputData.innerText = res;
-    scanning = false;
+        var teams = getApi('teams');
+        var stades = getApi('stadiums');
+        var events = getApi('events')[ticketinfo["event"]-1];
 
-    video.srcObject.getTracks().forEach((track) => {
-      track.stop();
+        var date = new Date(events["fields"]["start"]);
+        var date = date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        var stade = stades[events["fields"]["stadium"]]["fields"]["name"];
+        var country = stades[events["fields"]["stadium"]]["fields"]["location"];
+
+        team1 = teams[events["fields"]["team_home"]-1]["fields"]["country"];
+        team2 = teams[events["fields"]["team_away"]-1]["fields"]["country"];
+
+        document.querySelector("#results").innerHTML = `
+        <h3>Informations sur le ticket</h3>
+        <p>Le ticket est de catégorie <strong>${ticketinfo["category"]}</strong> (${ticketinfo["price"]} ${ticketinfo["currency"]}).</p>
+        <p>Place attribué : ${ticketinfo["seat"]}</p>
+        
+        <h3>Informations sur le match</h3>
+        <p>Le match se déroulera le <strong>${date}</strong> au stade <strong>${stade}</strong> ( ${country} ) .</p>
+        <p>Le match opposera <strong>${team1}</strong> à <strong>${team2}</strong>.</p>
+`;
     });
-
-    qrResult.hidden = false;
-
-    canvasElement.hidden = true;
-  }
-};
-
-scanIcon.onclick = () => {
-  if (navigator.mediaDevices) {
-    navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: "environment" } })
-      .then(function (stream) {
-        scanning = true;
-        qrResult.hidden = true;
-
-        canvasElement.hidden = false;
-        video.setAttribute("playsinline", true);
-        video.srcObject = stream;
-        video.play();
-        tick();
-        scan();
-      });
-  } else {
-    output.innerHTML = `Sorry, Your Browser Cannot support this feature`;
-  }
-};
-
-function tick() {
-  canvasElement.height = video.videoHeight;
-  canvasElement.width = video.videoWidth;
-  canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-
-  scanning && requestAnimationFrame(tick);
+    
+    qrScanner.setCamera("environment");
+    qrScanner.start();
 }
 
-function scan() {
-  try {
-    qrCode.decode();
-  } catch (e) {
-    setTimeout(scan, 300);
-  }
+document.querySelector("#start").addEventListener("click", () => {
+    startScanner();
+});
+
+function getApi(searchQuery) {
+    var apiURL =
+        "https://kevin.maublanc.net/api/" + encodeURIComponent(searchQuery);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", apiURL, false);
+    xhr.send();
+
+    if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+
+        return data
+    }
+
+    return [];
 }

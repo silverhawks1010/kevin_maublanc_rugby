@@ -1,0 +1,5 @@
+
+*.pyc
+mainapp/__pycache__/
+mainapp/views/__pycache__/
+mainapp/models/__pycache__/

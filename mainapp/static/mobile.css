@@ -3,6 +3,9 @@
     --color-orange: #F69D00;
 }
 
+
+
+
 html, body {
     background: white;
     min-height: 100vh;
@@ -44,6 +47,7 @@ header .container > p {
     margin: 0.5rem;
     font-size: 100%;
     font-family: "Akshar", sans-serif;
+    text-align: center;
 }
 
 .partners {
@@ -82,7 +86,7 @@ nav a.active {
 }
 
 main {
-    margin-left: 10px;
+    margin: 10px;
     padding-top: 2em;
     padding-bottom: 2em;
     background: white;
@@ -164,12 +168,15 @@ form fieldset legend {
     border-bottom: 3px solid black;
 }
 
+/* -------------------------------------------- FOOTER -------------------------------------------- */
+
 footer {
 	position: fixed;
     width: 100%;
     bottom: 0;
     height: 8vh;
     border-top: 1px solid black;
+    background: linear-gradient(to top, var(--color-pink) 0%, var(--color-orange) 100%);
 }
 
 footer nav {
@@ -188,11 +195,9 @@ footer .button-item {
     margin: 0 0 0 0;
     padding: 0 0 0 0;
     border: 0 0 0 0;
-    background: rgb(240, 240, 240);
-    box-shadow: inset 0px 1px 0 1px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0px 1px 0 0px rgba(0, 0, 0, 0.2);
     height: 100%;
     width: 100%;
-    border-left: black 1px solid;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -205,7 +210,6 @@ footer i{
 }
 footer .button-item:active {
     box-shadow: inset 0px 1px 0 1px rgba(0, 0, 0, 0.2), inset 0px 1px 10px 1px rgba(0, 0, 0, 0.2);
-    background: rgb(230, 230, 230);
 }
 
 footer i:active {
@@ -234,43 +238,28 @@ footer i:active {
     }
 }
 
-html,
-body {
-  font-family: "Montserrat", sans-serif;
-}
-.scan-body {
-  text-align: center;
-  margin: 40px auto;
-  font-size: 40px;
+/* -------------------------------------------- SCANNER -------------------------------------------- */
+
+#scanner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-.scan-icon {
-  font-size: 100px;
-  border: solid 1px #000;
-  padding: 25px 20px 20px 20px;
-  box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+#start {
+    display: block;
+    background: linear-gradient(to top, var(--color-pink) 0%, var(--color-orange) 100%);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 50%;
+    height: 3em;
+    color: white;
+    
 }
 
-.qr-canvas {
-  position: absolute;
-  left: 0;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 400px;
-}
-#qr-result {
-  font-size: 1.2em;
-  margin: 20px auto;
-  padding: 20px;
-  max-width: 700px;
-  background-color: #fff;
-}
-
-.camera {
-  text-align: center;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-25%, -50%);
-  font-size: 40px;
+video {
+    max-width: 100%;
+    max-height: 100%;
 }

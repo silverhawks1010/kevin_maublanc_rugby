@@ -14,6 +14,12 @@ function initialLoad() {
     loadAccueil();
     loadStadiums()
     loadTeams() 
+
+    // redirect if width < 768px
+    if (window.innerWidth > 1000) {
+        // redirect url
+        window.location.replace('/#');
+    }
 }
 
 function loadAccueil() 
@@ -83,7 +89,7 @@ function loadTeams() {
 
 function getApi(searchQuery) {
     var apiURL =
-        "http://127.0.0.1:8000/api/" + encodeURIComponent(searchQuery);
+        "https://kevin.maublanc.net/api/" + encodeURIComponent(searchQuery);
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", apiURL, false);

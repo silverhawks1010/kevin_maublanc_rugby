@@ -7,13 +7,13 @@ from .api import api, api_get, api_ticket
 
 urlpatterns = (
     path("", HomeView.as_view(), name="home"),
-    path("stadiums", StadiumsView.as_view(), name="stadiums"),
-    path("teams", TeamsView.as_view(), name="teams"),
-    path("newsletter", NewsletterView.as_view(), name="newsletter"),
-    path("update", UpdateView.as_view(), name="update"),
-    path("about", AboutView.as_view(), name="about"),
-    path("mobile", MobileView.as_view(), name="mobile"),
-    path("qrcode", QrCode.as_view(), name="qrcode"),
+    path("stadiums/", StadiumsView.as_view(), name="stadiums"),
+    path("teams/", TeamsView.as_view(), name="teams"),
+    path("newsletter/", NewsletterView.as_view(), name="newsletter"),
+    path("update/", UpdateView.as_view(), name="update"),
+    path("about/", AboutView.as_view(), name="about"),
+    path("mobile/", MobileView.as_view(), name="mobile"),
+    path("scan/", QrCode.as_view(), name="qrcode"),
 
 
     path("api/", api, name="api"),
