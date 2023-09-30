@@ -1,12 +1,14 @@
 var actualId = document.querySelector('#accueil');
 
-function switchToId(id) {
+function switchToId(id)
+{
     actualId.style.display = 'none';
     actualId = document.querySelector(id);
     actualId.style.display = 'block';
 }
 
-function initialLoad() {
+window.onload = function ()
+{
     loadStadiums();
     document.querySelector('#stades').style = 'opacity: 255;';
     document.querySelector('#stades').style.display = 'none';
@@ -39,7 +41,8 @@ function loadAccueil()
                         au stade <strong> ${stade} </strong> : ${team1} vs ${team2}.`;
 }
 
-function loadStadiums() {
+function loadStadiums() 
+{
     var stades = getApi('stadiums');
 
     stades.forEach((item, index) => {
@@ -63,7 +66,8 @@ function loadStadiums() {
     })
 }
 
-function loadTeams() {
+function loadTeams() 
+{
     var teams = getApi('teams');
 
     teams.forEach((item, index) => {
@@ -87,9 +91,10 @@ function loadTeams() {
 }
 
 
-function getApi(searchQuery) {
+function getApi(searchQuery) 
+{
     var apiURL =
-        "https://kevin.maublanc.net/api/" + encodeURIComponent(searchQuery);
+        "https://rugby.maublanc.net/api/" + encodeURIComponent(searchQuery);
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", apiURL, false);
