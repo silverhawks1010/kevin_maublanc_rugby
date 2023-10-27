@@ -1,6 +1,5 @@
-from django import forms
-from django.views.generic import FormView
 from django.views.generic import TemplateView
+
 
 class MobileView(TemplateView):
     template_name = "mobile.html"
@@ -10,3 +9,4 @@ class MobileView(TemplateView):
         context["organisateur"] = "RTC Comitee"
 
         return context
+ 

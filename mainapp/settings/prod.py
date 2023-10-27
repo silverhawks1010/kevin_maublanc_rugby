@@ -3,5 +3,8 @@ from .base import *
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    "www.rugbytropicalcup.com"
+    "rugby.maublanc.net"
 ]
+
+STATIC_ROOT = "/home/srv-admin/rugby/mainapp/static/"
+MEDIA_ROOT = "/home/srv-admin/rugby/mainapp/media/"

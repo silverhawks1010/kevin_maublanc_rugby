@@ -9,17 +9,17 @@ def api():
     data = serializers.serialize("json", Ticket.objects.all())
     return JsonResponse(json.loads(data), safe=False)
 
-def api_get(request, pk):
-    if pk == "events":
-        data = serializers.serialize("json", Event.objects.all())
-    elif pk == "stadiums":
-        data = serializers.serialize("json", Stadium.objects.all())
-    elif pk == "teams":
-        data = serializers.serialize("json", Team.objects.all())       
-    else:
-        return JsonResponse("[]", safe=False)
-    return JsonResponse(json.loads(data), safe=False)        
-    
+def api_events(request):
+    data = serializers.serialize("json", Event.objects.all())
+    return JsonResponse(json.loads(data), safe=False)
+
+def api_stadiums(request):
+    data = serializers.serialize("json", Stadium.objects.all())
+    return JsonResponse(json.loads(data), safe=False)
+
+def api_teams(request):
+    data = serializers.serialize("json", Team.objects.all())
+    return JsonResponse(json.loads(data), safe=False)
 
 def api_ticket(request, pk):
     data = serializers.serialize("json", Ticket.objects.filter(pk=pk))

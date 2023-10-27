@@ -4,17 +4,14 @@
 }
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 7441152 (DAT Modified, repair QrCode, little update mobile style)
 html, body {
     background: white;
     min-height: 100vh;
 	display: grid;
 	grid-template-rows: auto 1fr auto;
-
+    margin-bottom: 5vh;
 }
 
 header {
@@ -24,6 +21,8 @@ header {
     background-size: cover;
     background-position: center;
     position: relative;
+    position: relative;
+    overflow: hidden;
 }
 
 header::after {
@@ -87,6 +86,7 @@ nav a.active {
     border-radius: 5px;
     border-color: var(--color-orange);
 }
+
 
 main {
     margin: 10px;
@@ -182,9 +182,6 @@ footer {
     background: linear-gradient(to top, var(--color-pink) 0%, var(--color-orange) 100%);
 }
 
-
-/* ---------------------- Footer ------------------------ */
-
 footer nav {
     display: flex;
     flex-direction: row;
@@ -201,12 +198,7 @@ footer .button-item {
     margin: 0 0 0 0;
     padding: 0 0 0 0;
     border: 0 0 0 0;
-<<<<<<< HEAD
     box-shadow: inset 0px 1px 0 0px rgba(0, 0, 0, 0.2);
-=======
-background: linear-gradient(to top, var(--color-pink) 0%, var(--color-orange) 100%);
-    box-shadow: inset 0px 0px 0px 0px rgba(0, 0, 0, 0.2);
->>>>>>> 7441152 (DAT Modified, repair QrCode, little update mobile style)
     height: 100%;
     width: 100%;
     display: flex;
@@ -249,7 +241,6 @@ footer i:active {
     }
 }
 
-<<<<<<< HEAD
 /* -------------------------------------------- SCANNER -------------------------------------------- */
 
 #scanner {
@@ -257,19 +248,6 @@ footer i:active {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-=======
-
-/* ---------------------- Scanner ------------------------ */
-
-html,
-body {
-  font-family: "Montserrat", sans-serif;
-}
-.scan-body {
-  text-align: center;
-  margin: 40px auto;
-  font-size: 40px;
->>>>>>> 7441152 (DAT Modified, repair QrCode, little update mobile style)
 }
 
 #start {

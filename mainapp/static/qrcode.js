@@ -9,9 +9,11 @@ const startScanner = () => {
         console.log('Contenu du QR Code :', result);
         document.querySelector("#scanner").style.display = 'none';
 
-        document.querySelector("#results").innerHTML = ' <h3>Informations sur le ticket</h3> </h3> <h4> Le ticket est invalide ! </h4> <p> Veuillez scanner un ticket valide. </p>'
 
-        ticketinfo = getApi('ticket/' + result)[0]["fields"];
+        document.querySelector("#results").innerHTML = `<h3>Informations sur le ticket</h3> </h3> <h4> Le ticket est invalide ! </h4> <p> Veuillez scanner un ticket valide. </p>`;
+
+        
+        var ticketinfo = getApi('ticket/' + result)[0]["fields"];
 
         var teams = getApi('teams');
         var stades = getApi('stadiums');
@@ -46,7 +48,7 @@ document.querySelector("#start").addEventListener("click", () => {
 
 function getApi(searchQuery) {
     var apiURL =
-        "https://kevin.maublanc.net/api/" + encodeURIComponent(searchQuery);
+        "https://rugby.maublanc.net/api/" + searchQuery;
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", apiURL, false);
