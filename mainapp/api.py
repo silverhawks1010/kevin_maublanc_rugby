@@ -22,9 +22,5 @@ def api_get(request, pk):
     
 
 def api_ticket(request, pk):
-    print("pk :")
-    print(pk)
     data = serializers.serialize("json", Ticket.objects.filter(pk=pk))
-    print("data :")
-    print(data)
     return JsonResponse(json.loads(data), safe=False)
