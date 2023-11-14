@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 import json
 import qrcode
 
@@ -11,12 +12,22 @@ def api():
     return JsonResponse(json.loads(data), safe=False)
 
 def api_events(request):
-    data = serializers.serialize("json", Event.objects.all())
-    return JsonResponse(json.loads(data), safe=False)
+    data = list(Event.objects.values())
+    stadium = list(Stadium.objects.values())
+    team = list(Team.objects.values())
+
+    for v in data:
+        v["stadium_id"] = stadium[v["stadium_id"]-1]
+        if v["team_home_id"]:
+            v["team_home_id"] = team[v["team_home_id"]-1]
+        if v["team_away_id"]:
+            v["team_away_id"] = team[v["team_away_id"]-1]
+    
+    return JsonResponse(data, safe=False)
 
 def api_stadiums(request):
     data = serializers.serialize("json", Stadium.objects.all())
-    return JsonResponse(json.loads(data), safe=False)
+    return JsonResponse(json.loads(data), safe=False, encoder=DjangoJSONEncoder)
 
 def api_teams(request):
     data = serializers.serialize("json", Team.objects.all())
