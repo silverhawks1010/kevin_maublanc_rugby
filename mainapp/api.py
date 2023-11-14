@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.core import serializers
 import json
+import qrcode
 
 from .models import Event, Stadium, Team, Ticket
 
@@ -24,3 +25,9 @@ def api_teams(request):
 def api_ticket(request, pk):
     data = serializers.serialize("json", Ticket.objects.filter(pk=pk))
     return JsonResponse(json.loads(data), safe=False)
+
+def qrcodegenerate(request, pk):
+    qr = qrcode.make(pk)
+    qr.save(f'mainapp/static/qrcode/{pk}_qrcode.png')
+    return JsonResponse({'qrurl': f'http://127.0.0.1:8000/static/qrcode/{pk}_qrcode.png'})
+

@@ -14,8 +14,7 @@ window.onload = function ()
     document.querySelector('#stades').style.display = 'none';
 
     loadAccueil();
-    loadStadiums()
-    loadTeams() 
+    loadTeams();
 
     // redirect if width < 768px
     if (window.innerWidth > 1000) {
@@ -29,16 +28,28 @@ function loadAccueil()
     var teams = getApi('teams');
     var stades = getApi('stadiums');
     var events = getApi('events')[0];
-
     var date = new Date(events["fields"]["start"]);
-    var date = date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
+    var date = date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'numeric', day: 'numeric' });
     var stade = stades[events["fields"]["stadium"]]["fields"]["name"];
+
     team1 = teams[events["fields"]["team_home"]-1]["fields"]["country"];
     team2 = teams[events["fields"]["team_away"]-1]["fields"]["country"];
+    countryalpha = teams[events["fields"]["team_home"]-1]["fields"]["country_alpha2"];
+    countryalpha2 = teams[events["fields"]["team_away"]-1]["fields"]["country_alpha2"];
+    nickname = teams[events["fields"]["team_home"]-1]["fields"]["nickname"];
+    nickname2 = teams[events["fields"]["team_away"]-1]["fields"]["nickname"];
 
-    document.querySelector('#coupenvoie').innerHTML = `Le premier match de la compétition se déroulera le <strong> ${date} </strong>
-                        au stade <strong> ${stade} </strong> : ${team1} vs ${team2}.`;
+
+    document.querySelector('#teamOneImg').src = `../static/flags/${countryalpha}.svg`;
+    document.querySelector('#teamTwoImg').src = `../static/flags/${countryalpha2}.svg`;
+    document.querySelector('#teamOne').innerHTML = team1;
+    document.querySelector('#teamTwo').innerHTML = team2;
+    document.querySelector('#teamSurnameOne').innerHTML = nickname;
+    document.querySelector('#teamSurnameTwo').innerHTML = nickname2;
+    document.querySelector('#date').innerHTML = date;
+    document.querySelector('#stadium').innerHTML = stade;
+
+    document.querySelector('#coupenvoie').onclick = function() { qrcodeGenerate(events['pk']) };
 }
 
 function loadStadiums() 
@@ -90,11 +101,20 @@ function loadTeams()
     })
 }
 
+async function qrcodeGenerate(id) {
+    fetch(`http://127.0.0.1:8000/qrcode/${id}`)
+        .then(response => response.json())
+        .then(result => {
+            const resultElement = document.querySelector("#coupenvoie");
+            resultElement.innerHTML = `<img width="50%" src="${result["qrurl"]}" alt=""/>`;
+    }) 
+}
+
 
 function getApi(searchQuery) 
 {
     var apiURL =
-        "https://rugby.maublanc.net/api/" + encodeURIComponent(searchQuery);
+        "http://127.0.0.1:8000/api/" + searchQuery;
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", apiURL, false);

@@ -171,6 +171,61 @@ form fieldset legend {
     border-bottom: 3px solid black;
 }
 
+#coupenvoie
+{
+    width: 95%;
+    height: 25vh;
+    background-color: #1f3151;
+    border: 3px solid var(--color-orange);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.versus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    text-align: center;
+    text-transform: uppercase;
+    background:linear-gradient(to top, var(--color-pink) 0%, var(--color-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.teaminfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2%;
+    height: 95%;
+    width: 40%;
+}
+
+.tielements {
+    width: 95%;
+    height: 50%;
+    text-align: center;
+    text-transform: uppercase;
+    background:linear-gradient(to top, var(--color-pink) 0%, var(--color-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.teaminfo img{
+    border: 3px solid rgba(0, 0, 0, 0);
+    border-radius: 50px;
+    height: 40%;
+    width: 100%;
+}
+
+
 /* -------------------------------------------- FOOTER -------------------------------------------- */
 
 footer {

@@ -3,7 +3,7 @@ from django.urls import path
 from django.contrib import admin
 # Import des vues qui sont déclarées dans leur propre module (dossier)
 from .views import HomeView, StadiumsView, TeamsView, NewsletterView, UpdateView, AboutView, MobileView, QrCode
-from .api import api, api_ticket, api_teams, api_stadiums, api_events
+from .api import api, api_ticket, api_teams, api_stadiums, api_events, qrcodegenerate
 
 urlpatterns = (
     path("", HomeView.as_view(), name="home"),
@@ -20,7 +20,10 @@ urlpatterns = (
     path("api/stadiums/", api_stadiums, name="api_get"),
     path("api/teams/", api_teams, name="api_get"),
     
+    
     path("api/ticket/<str:pk>/", api_ticket, name="api_ticket"),
+    path("qrcode/<str:pk>/", qrcodegenerate, name="qrcodegenerate"),
+
 
 
     path("vfjifjsoldijfdsjfdjsdfdsjvhsjvisjhusdvhdsi", admin.site.urls),
