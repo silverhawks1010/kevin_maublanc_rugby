@@ -4,6 +4,9 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 import qrcode
+import uuid
+import os
+from PIL import Image, ImageFont, ImageDraw
 
 from .models import Event, Stadium, Team, Ticket
 
@@ -38,6 +41,16 @@ def api_ticket(request, pk):
     return JsonResponse(json.loads(data), safe=False)
 
 def qrcodegenerate(request, pk):
+    tid = uuid.uuid4()
+    eid = pk
+
+    font_opensans_42pt = ImageFont.truetype( f'mainapp/static/Akshar-Bold.ttf', 42)
+    font_opensans2_38pt = ImageFont.truetype(f'mainapp/static/Akshar-Medium.ttf', 38)
+
+    img = Image.open(f'mainapp/static/billet.png')
+    
+    
+
     qr = qrcode.make(pk)
     qr.save(f'mainapp/static/qrcode/{pk}_qrcode.png')
     return JsonResponse({'qrurl': f'http://127.0.0.1:8000/static/qrcode/{pk}_qrcode.png'})

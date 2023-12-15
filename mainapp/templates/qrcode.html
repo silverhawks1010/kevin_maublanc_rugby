@@ -42,6 +42,7 @@
             <h2>Scanneur de billets</h2>
     
             <section id="scanner">
+                <input type="file" id="file-selector">
                 <button id="start">Démarrer</button>
                 <video>
                 </video>
@@ -53,16 +54,8 @@
     
             </section>
         </main>
-
-        <footer>
-            <nav>
-                <div class="button-item" onclick="switchToId('#accueil')">
-                    <a href="/"><i class="fa-solid fa-house"></i></a>
-                </div>
-            </nav>
-        </footer>
         
         <script src="{% static 'qr-scanner.umd.min.js' %}"></script>
-        <script src="{% static 'qrcode.js' %}"></script>
+        <script src="{% static 'modules/qrcode.js' %}"></script>
     </body>
 </html>

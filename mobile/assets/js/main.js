@@ -15,8 +15,10 @@ window.onload = function ()
 
     loadAccueil();
     loadTeams();
-    loadMatchs();
-}
+    getApi('events').forEach((event) => {
+        loadMatch(event);
+    });
+};
 
 function loadAccueil() 
 {
@@ -35,53 +37,56 @@ function loadAccueil()
     document.querySelector('#stadium').innerHTML = events["stadium_id"]["name"];
 }
 
-function loadMatchs() {
-    getApi('events').forEach((event) => {
-        const getTeamInfo = (teamId) => {
-            if (teamId == null) {
-                return {
-                    team: '?',
-                    countryalpha: 'xx',
-                    nickname: '?'
-                };
-            }
-            const teamInfo = teamId;
+function loadMatch(event) {
+    const getTeamInfo = (teamId) => {
+        if (teamId == null) {
             return {
-                team: teamInfo.country,
-                countryalpha: teamInfo.country_alpha2,
-                nickname: teamInfo.nickname
+                team: '?',
+                countryalpha: 'xx',
+                nickname: '?'
             };
+        }
+        const teamInfo = teamId;
+        return {
+            team: teamInfo.country,
+            countryalpha: teamInfo.country_alpha2,
+            nickname: teamInfo.nickname
         };
+    };
 
-        const team1Info = getTeamInfo(event.team_home_id);
-        const team2Info = getTeamInfo(event.team_away_id);
+    const team1Info = getTeamInfo(event.team_home_id);
+    const team2Info = getTeamInfo(event.team_away_id);
 
-        const date = new Date(event.start).toLocaleDateString('fr-FR', { year: 'numeric', month: 'numeric', day: 'numeric' });
-        const stade = event.stadium_id.name;
+    const date = new Date(event.start).toLocaleDateString('fr-FR', { year: 'numeric', month: 'numeric', day: 'numeric' });
+    const stade = event.stadium_id.name;
 
-        const matchBlock = document.createElement("div");
-        matchBlock.className = "match separator ";
-        matchBlock.id = `coupenvoie${event.id}`;
-        matchBlock.onclick = () => { qrcodeGenerate(event.id) };
-        matchBlock.innerHTML = `
-            <div class="teaminfo">
-                <img class="tielements" id="teamOneImg" src="assets/img/flags/${team1Info.countryalpha}.svg" alt="">
-                <p class="tielements" id="teamOne">${team1Info.team}</p>
-                <p class="tielements" id="teamSurnameOne">${team1Info.nickname}</p>
-            </div>
-            <div class="teaminfo"> 
-                <h2 class="versus">VS</h2>
-                <p class="tielements" id="date">${date}</p> 
-                <p class="tielements"  id="stadium">${stade}</p>
-            </div>
-            <div class="teaminfo">
-                <img class="tielements" id="teamTwoImg" src="assets/img/flags/${team2Info.countryalpha}.svg" alt="">
-                <p class="tielements" id="teamTwo">${team2Info.team}</p>
-                <p class="tielements" id="teamSurnameTwo">${team2Info.nickname}</p>
-            </div>`;
+    var matchBlock = document.createElement("div");
+    if (document.querySelector(`#coupenvoie${event.id}`)) {
+        matchBlock = document.querySelector(`#coupenvoie${event.id}`);
+    }
+    matchBlock.className = "match separator ";
+    matchBlock.id = `coupenvoie${event.id}`;
+    matchBlock.onclick = () => { frameTicket(event.id) };
+    matchBlock.innerHTML = `
+        <div class="teaminfo">
+            <img class="tielements" id="teamOneImg" src="assets/img/flags/${team1Info.countryalpha}.svg" alt="">
+            <p class="tielements" id="teamOne">${team1Info.team}</p>
+            <p class="tielements" id="teamSurnameOne">${team1Info.nickname}</p>
+        </div>
+        <div class="teaminfo"> 
+            <h2 class="versus">VS</h2>
+            <p class="tielements" id="date">${date}</p> 
+            <p class="tielements"  id="stadium">${stade}</p>
+        </div>
+        <div class="teaminfo">
+            <img class="tielements" id="teamTwoImg" src="assets/img/flags/${team2Info.countryalpha}.svg" alt="">
+            <p class="tielements" id="teamTwo">${team2Info.team}</p>
+            <p class="tielements" id="teamSurnameTwo">${team2Info.nickname}</p>
+        </div>`;
 
+    if (!document.querySelector(`#coupenvoie${event.id}`)) {
         document.getElementById("matchsCont").appendChild(matchBlock);
-    });
+    }
 }
 
 function loadStadiums() {
@@ -136,11 +141,39 @@ async function qrcodeGenerate(id) {
 
         const resultElement = document.querySelector(`#coupenvoie${id}`);
         resultElement.innerHTML = `<img width="50%" src="${result.qrurl}" alt=""/>`;
+        resultElement.className = "match separator qrcode";
+
     } catch (error) {
         console.error('Erreur lors de la génération du QR code :', error);
     }
 }
 
+async function frameTicket(id) {
+    try {
+        if (document.querySelector(`#coupenvoie${id}`).className == "match separator qrcode") {
+            loadMatch(getApi('events')[id - 1]);
+            return;
+        }
+
+        const resultElement = document.querySelector(`#coupenvoie${id}`);
+        resultElement.innerHTML = `
+            <div class="qrcard">
+                <button class="btn btn-primary" onclick="frameTicket(id)">X</button>
+                <select id="select${id}" class="form-control" onchange="qrcodeGenerate(id)">
+                    <option value="0">Choisissez votre place</option>
+                    <option value="1">Silver</option>
+                    <option value="2">Gold</option>
+                    <option value="3">Platinium</option>
+                </select>
+            </div>
+        `;
+        resultElement.className = "match separator";
+        resultElement.onclick = () => {  };
+
+    } catch (error) {
+        console.error('Erreur lors de la génération du QR code :', error);
+    }
+}
 
 function getApi(searchQuery) 
 {

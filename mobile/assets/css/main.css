@@ -181,6 +181,11 @@ form fieldset legend {
     cursor: pointer;
 }
 
+.match:active {
+    animation: -flip 0.5s;
+
+}
+
 .separator {
     margin-top: 25px;
     border-bottom: 2px solid black;
@@ -270,6 +275,15 @@ footer .button-item:active {
 
 footer i:active {
     animation: beat 1s infinite alternate;
+}
+
+@keyframes -flip {
+   0% {
+            transform: rotateY(0deg);
+        }
+        100% {
+            transform: rotateY(360deg);
+        }
 }
 
 @keyframes beat {
