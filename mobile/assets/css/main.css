@@ -3,9 +3,6 @@
     --color-orange: #F69D00;
 }
 
-
-
-
 html, body {
     background: white;
     min-height: 100vh;
@@ -18,18 +15,6 @@ header {
     color: white;
     background: url("../img/header.jpg");
     background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
-}
-
-header::after {
-    content: "";
-    height: 15px;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
 }
 
 header .container {
@@ -38,17 +23,6 @@ header .container {
     flex-direction: column;
 }
 
-header .container #logo {
-    height: 50%;
-    margin-right: 3em;
-}
-
-header .container > p {
-    margin: 0.5rem;
-    font-size: 100%;
-    font-family: "Akshar", sans-serif;
-    text-align: center;
-}
 
 .partners {
     display: flex;
@@ -62,40 +36,8 @@ header .container > p {
     width: 20%;
 }
 
-nav ul {
-    display: block;
-    left: 5%;
-    padding: 0;
-    font-size: 150%;
-    font-family: "Akshar", sans-serif;
-    font-weight: 600;
-    text-transform: uppercase;
-    list-style: none;
-}
-
-nav a {
-    margin-right: 0.5rem;
-    padding: 0.5rem;
-    color: white;
-    border: 5px solid transparent;
-}
-
-nav a.active {
-    border-radius: 5px;
-    border-color: var(--color-orange);
-}
-
-
-main {
-    margin: 10px;
-    padding-top: 2em;
-    padding-bottom: 2em;
-    background: white;
-}
-
 #equipes, #newsletter, #about, #matchs {
     display: none;
-    padding-bottom: 25%;
 }
 
 #stades {
@@ -109,7 +51,6 @@ h1, h2, h3, h4 {
 
 h2 {
     padding: 0.25em;
-    margin-top: -1rem;
     font-size: 300%;
     text-align: center;
     font-weight: 400;
@@ -120,39 +61,7 @@ h2 {
 }
 
 h3 {
-    width: 80%;
-    padding-bottom: 3px;
     border-bottom: 5px solid rgba(255,140,0,1);
-}
-
-p {
-    width: 80%;
-}
-
-.team h3 {
-    margin-top: 2rem;
-    border: none;
-}
-.team h3 span {
-    
-    margin: 0.5rem 0;
-    padding: 0.25rem;
-    color: white;
-    background: black;
-}
-
-.desc {
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
-.team .flag {
-    min-width: 25%;
-    max-width: 25%;
-    outline: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 form label {
@@ -175,15 +84,8 @@ form fieldset legend {
     height: 25vh;
     border-radius: 15px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-}
-
-.match:active {
-    animation: -flip 0.5s;
-
 }
 
 .separator {
@@ -192,11 +94,9 @@ form fieldset legend {
 }
 
 #matchsCont {
-    width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
 }
 
 .teaminfo {
@@ -214,18 +114,11 @@ form fieldset legend {
     height: 50%;
     text-align: center;
     text-transform: uppercase;
-    color: black;
 }
 
-.teaminfo img{
-    border: 3px solid rgba(0, 0, 0, 0);
-    border-radius: 2px;
-    width: 100%;
-}
 
 .versus {
     padding: 0;
-    margin: 0;
     height: 198%;   
 }
 
@@ -242,7 +135,6 @@ footer {
 
 footer nav {
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
     height: 100%;
 
@@ -253,37 +145,32 @@ footer ,footer a {
 }
 
 footer .button-item {
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
-    border: 0 0 0 0;
-    box-shadow: inset 0px 1px 0 0px rgba(0, 0, 0, 0.2);
-    height: 100%;
-    width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
 footer i{
-    overflow: hidden;
     font-size: 4vh;
 
-}
-footer .button-item:active {
-    box-shadow: inset 0px 1px 0 1px rgba(0, 0, 0, 0.2), inset 0px 1px 10px 1px rgba(0, 0, 0, 0.2);
 }
 
 footer i:active {
     animation: beat 1s infinite alternate;
 }
 
+
+/* -------------------------------------------- ANIM -------------------------------------------- */
+.flip:active {
+    animation: -flip 0.5s;
+}
+
 @keyframes -flip {
    0% {
-            transform: rotateY(0deg);
-        }
-        100% {
-            transform: rotateY(360deg);
-        }
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
 }
 
 @keyframes beat {

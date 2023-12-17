@@ -62,12 +62,17 @@ function loadMatch(event) {
 
     if (document.querySelector(`#coupenvoie${event.id}`)) {
         matchBlock = document.querySelector(`#coupenvoie${event.id}`);
+        setTimeout(function () {
+            matchBlock.onclick = () => { frameTicket(event.id) };
+            matchBlock.className = "match separator flip";
+        }, 2000);
+    }else {
+        matchBlock = document.createElement("div");
+        matchBlock.id = `coupenvoie${event.id}`;
+        matchBlock.className = "match separator";
+        matchBlock.onclick = () => frameTicket(event.id);
     }
     
-    matchBlock = document.createElement("div");
-    matchBlock.className = "match separator ";
-    matchBlock.id = `coupenvoie${event.id}`;
-    matchBlock.onclick = () => { frameTicket(event.id) };
     matchBlock.innerHTML = `
         <div class="teaminfo">
             <img class="tielements" id="teamOneImg" src="assets/img/flags/${team1Info.countryalpha}.svg" alt="">
@@ -84,10 +89,12 @@ function loadMatch(event) {
             <p class="tielements" id="teamTwo">${team2Info.team}</p>
             <p class="tielements" id="teamSurnameTwo">${team2Info.nickname}</p>
         </div>`;
-
-    if (!document.querySelector(`#coupenvoie${event.id}`)) {
+    if (document.querySelector(`#coupenvoie${event.id}`)) {
+        return;
+    }else {
         document.getElementById("matchsCont").appendChild(matchBlock);
     }
+
 }
 
 function loadStadiums() {
@@ -155,15 +162,16 @@ async function qrcodeGenerate(id) {
 }
 
 function frameTicket(id) {
-    console.log(document.querySelector(`#coupenvoie${id}`).className)
-    if (document.querySelector(`#coupenvoie${id}`).className == "match separator qrcode") {
+    const frame = document.querySelector(`#coupenvoie${id}`)
+    console.log(frame.classList);
+    if (frame.classList.contains("qrcode")) {
+        loadMatch(getApi('events')[id-1])
         return;
     }
 
-    const resultElement = document.querySelector(`#coupenvoie${id}`);
-    resultElement.innerHTML = `
+    frame.innerHTML = `
         <div class="qrcard">
-            <button class="btn btn-primary" onclick="frameTicket(id)">X</button>
+            <button class="btn btn-primary" onclick="frameTicket(${id})">X</button>
             <select id="select${id}" class="form-control">
                 <option value="none">Choisissez votre place</option>
                 <option value="Silver">Silver</option>
@@ -173,9 +181,8 @@ function frameTicket(id) {
             <button class="btn btn-primary" onclick="qrcodeGenerate(${id})">Demander Ticket</button>
         </div>
     `;
-    resultElement.className = "match separator qrcode";
-    resultElement.onclick = "";
-
+    frame.className = "match separator qrcode flip";
+    frame.onclick = "";
 }
 
 function getApi(searchQuery) 
