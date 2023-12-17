@@ -1,14 +1,7 @@
-from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
-import json
-import qrcode
-import uuid
-import os
-import locale
-import random
-from datetime import datetime
+import json, qrcode, uuid, os, random
 from PIL import Image, ImageFont, ImageDraw
 
 from .models import Event, Stadium, Team, Ticket
@@ -48,7 +41,6 @@ def qrcodegenerate(request, pk):
     event,stadium,team = list(Event.objects.values())[eid-1], list(Stadium.objects.values()), list(Team.objects.values())
     font_opensans_42pt = ImageFont.truetype(os.path.dirname(__file__) + "/static/Akshar-Bold.ttf", 42)
     font_opensans2_38pt = ImageFont.truetype(os.path.dirname(__file__) + "/static/Akshar-Medium.ttf", 38)
-
 
     with Image.open(os.path.dirname(__file__) + "/static/billet.png") as im:
         draw = ImageDraw.Draw(im)

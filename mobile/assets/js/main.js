@@ -147,7 +147,6 @@ async function qrcodeGenerate(id) {
         
         const selectorelement = document.querySelector(`#select${id}`);
         const category = selectorelement.options[selectorelement.selectedIndex].value;
-        console.log(category);
         const response = await fetch(`http://127.0.0.1:8000/qrcode/${id}${category}/`);
         const result = await response.json();
 
@@ -163,7 +162,6 @@ async function qrcodeGenerate(id) {
 
 function frameTicket(id) {
     const frame = document.querySelector(`#coupenvoie${id}`)
-    console.log(frame.classList);
     if (frame.classList.contains("qrcode")) {
         loadMatch(getApi('events')[id-1])
         return;
