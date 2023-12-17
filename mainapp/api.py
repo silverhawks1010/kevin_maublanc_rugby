@@ -62,11 +62,11 @@ def qrcodegenerate(request, pk):
         seat = ''.join([ttype[0], "-",  str(random.randint(10, 99))])
         if ttype == "Silver":
             seat = "Libre"
-        price = 0
+        price = 10
         if ttype == "Gold":
-            price = 55
-        elif ttype == "Platinum":
-            price = 75
+            price = 50
+        elif ttype == "Platinium":
+            price = 100
 
 
         draw.text((877, 115), team[event["team_home_id"]-1]["country"], font=font_opensans_42pt, fill=(0,0,0))

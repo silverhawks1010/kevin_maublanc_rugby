@@ -146,7 +146,7 @@ async function qrcodeGenerate(id) {
 
 
         const resultElement = document.querySelector(`#coupenvoie${id}`);
-        resultElement.innerHTML = `<img width="50%" src="${result.qrurl}" alt=""/>`;
+        resultElement.innerHTML = `<button class="btn btn-primary" onclick="window.location.href='${result.qrurl}'">Télécharger l'image</button>`;
         resultElement.className = "match separator qrcode";
 
     } catch (error) {
