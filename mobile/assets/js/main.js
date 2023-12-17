@@ -60,10 +60,11 @@ function loadMatch(event) {
     const date = new Date(event.start).toLocaleDateString('fr-FR', { year: 'numeric', month: 'numeric', day: 'numeric' });
     const stade = event.stadium_id.name;
 
-    var matchBlock = document.createElement("div");
     if (document.querySelector(`#coupenvoie${event.id}`)) {
         matchBlock = document.querySelector(`#coupenvoie${event.id}`);
     }
+    
+    matchBlock = document.createElement("div");
     matchBlock.className = "match separator ";
     matchBlock.id = `coupenvoie${event.id}`;
     matchBlock.onclick = () => { frameTicket(event.id) };
@@ -136,8 +137,13 @@ function loadTeams()
 
 async function qrcodeGenerate(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/qrcode/${id}/`);
+        
+        const selectorelement = document.querySelector(`#select${id}`);
+        const category = selectorelement.options[selectorelement.selectedIndex].value;
+        console.log(category);
+        const response = await fetch(`http://127.0.0.1:8000/qrcode/${id}${category}/`);
         const result = await response.json();
+
 
         const resultElement = document.querySelector(`#coupenvoie${id}`);
         resultElement.innerHTML = `<img width="50%" src="${result.qrurl}" alt=""/>`;
@@ -148,31 +154,28 @@ async function qrcodeGenerate(id) {
     }
 }
 
-async function frameTicket(id) {
-    try {
-        if (document.querySelector(`#coupenvoie${id}`).className == "match separator qrcode") {
-            loadMatch(getApi('events')[id - 1]);
-            return;
-        }
-
-        const resultElement = document.querySelector(`#coupenvoie${id}`);
-        resultElement.innerHTML = `
-            <div class="qrcard">
-                <button class="btn btn-primary" onclick="frameTicket(id)">X</button>
-                <select id="select${id}" class="form-control" onchange="qrcodeGenerate(id)">
-                    <option value="0">Choisissez votre place</option>
-                    <option value="1">Silver</option>
-                    <option value="2">Gold</option>
-                    <option value="3">Platinium</option>
-                </select>
-            </div>
-        `;
-        resultElement.className = "match separator";
-        resultElement.onclick = () => {  };
-
-    } catch (error) {
-        console.error('Erreur lors de la génération du QR code :', error);
+function frameTicket(id) {
+    console.log(document.querySelector(`#coupenvoie${id}`).className)
+    if (document.querySelector(`#coupenvoie${id}`).className == "match separator qrcode") {
+        return;
     }
+
+    const resultElement = document.querySelector(`#coupenvoie${id}`);
+    resultElement.innerHTML = `
+        <div class="qrcard">
+            <button class="btn btn-primary" onclick="frameTicket(id)">X</button>
+            <select id="select${id}" class="form-control">
+                <option value="none">Choisissez votre place</option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Platinium">Platinium</option>
+            </select>
+            <button class="btn btn-primary" onclick="qrcodeGenerate(${id})">Demander Ticket</button>
+        </div>
+    `;
+    resultElement.className = "match separator qrcode";
+    resultElement.onclick = "";
+
 }
 
 function getApi(searchQuery) 
